@@ -1,9 +1,16 @@
 package com.obannonapps.helloworld;
 
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.GridView;
+import android.widget.Toast;
+import android.widget.AdapterView.OnItemClickListener;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -11,7 +18,25 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //testing
+
+        final GridView gridView = (GridView) findViewById(R.id.gridView);
+        gridView.setAdapter(new ImageAdapter(this));
+
+        gridView.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(MainActivity.this, gridView.getColumnWidth() + "  " + position, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        gridView.setNumColumns(3);
+        DisplayMetrics metrics = getResources().getDisplayMetrics();
+        float width = metrics.widthPixels;
+        int tileWidth = ((int)width) / 3;
+        gridView.setColumnWidth(tileWidth);
+
+        gridView.setBackgroundColor(Color.RED);
+
     }
 
     @Override
